@@ -9,7 +9,16 @@ namespace Project1.Providers
 {
     public class PostProvider : BaseProvider
     {
-
+        public List<PostModels> getAll() {
+            try
+            {
+                return Context.Database.SqlQuery<PostModels>(@"EXEC sp_get_post").ToList();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         public ResultSet createPost(PostModels PM)
         {
             try

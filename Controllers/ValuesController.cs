@@ -18,8 +18,10 @@ namespace Project1.Controllers
         {
             try
             {
-                //not completed
-                return Request.CreateResponse(HttpStatusCode.OK);
+                using (var provider = new PostProvider())
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK,provider.getAll());
+                }
             }
             catch (Exception ex)
             {
@@ -34,10 +36,12 @@ namespace Project1.Controllers
         {
             try
             {
-                if (!ModelState.IsValid) {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest,new ResultSet() { code=0,message="Bad Request"});
+                if (!ModelState.IsValid)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, new ResultSet() { code = 0, message = "Bad Request" });
                 }
-                using (var provider = new PostProvider()) {
+                using (var provider = new PostProvider())
+                {
                     return Request.CreateResponse(HttpStatusCode.OK, provider.createPost(post));
                 }
             }
@@ -58,7 +62,8 @@ namespace Project1.Controllers
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, new ResultSet() { code = 0, message = "Bad Request" });
                 }
-                using (var provider = new PostProvider()) {
+                using (var provider = new PostProvider())
+                {
                     return Request.CreateResponse(HttpStatusCode.OK, provider.deletePost(PM));
                 }
             }
