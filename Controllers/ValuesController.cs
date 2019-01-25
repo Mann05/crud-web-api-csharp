@@ -50,12 +50,17 @@ namespace Project1.Controllers
         }
         [HttpPost]
         [Route("api/deletePost")]
-        public HttpResponseMessage delete()
+        public HttpResponseMessage delete([FromBody]PostModels PM)
         {
             try
             {
-                //not completed
-                return Request.CreateResponse(HttpStatusCode.OK,result);
+                if (!ModelState.IsValid)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, new ResultSet() { code = 0, message = "Bad Request" });
+                }
+                using (var provider = new PostProvider()) {
+                    return Request.CreateResponse(HttpStatusCode.OK, provider.deletePost(PM));
+                }
             }
             catch (Exception ex)
             {
@@ -66,13 +71,19 @@ namespace Project1.Controllers
         }
         [HttpPost]
         [Route("api/updatePost")]
-        public HttpResponseMessage update([FromBody]PostModels post)
+        public HttpResponseMessage update([FromBody]PostModels PM)
         {
 
             try
             {
-                //not completed
-                return Request.CreateResponse(HttpStatusCode.OK, result);
+                if (!ModelState.IsValid)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, new ResultSet() { code = 0, message = "Bad Request" });
+                }
+                using (var provider = new PostProvider())
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, provider.updatePost(PM));
+                }
             }
             catch (Exception ex)
             {

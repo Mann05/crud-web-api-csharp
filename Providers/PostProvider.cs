@@ -22,7 +22,34 @@ namespace Project1.Providers
             {
                 return new ResultSet() { code = 0, message = ex.Message };
             }
+        }
 
+        public ResultSet deletePost(PostModels PM)
+        {
+            try
+            {
+                var postId = new SqlParameter("@postId", PM.PostId);
+                return Context.Database.SqlQuery<ResultSet>(@"EXEC sp_delete_post postId=@postId",postId).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                return new ResultSet() { code = 0, message = ex.Message };
+            }
+        }
+
+        public ResultSet updatePost(PostModels PM)
+        {
+            try
+            {
+                var postId = new SqlParameter("@postId", PM.PostId);
+                var postTitle = new SqlParameter("@postTitle", PM.PostTitle);
+                var postDescription = new SqlParameter("@postDescription", PM.PostDescription);
+                return Context.Database.SqlQuery<ResultSet>(@"EXEC sp_delete_post postId=@postId,postTitle=@postTitle,postDescription=@postDescription", postId,postTitle,postDescription).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                return new ResultSet() { code = 0, message = ex.Message };
+            }
         }
 
     }
